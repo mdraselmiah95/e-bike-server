@@ -21,6 +21,7 @@ async function run() {
     const database = client.db("e_bike");
     const bikesCollection = database.collection("bikes");
     const moreBikeCollection = database.collection("moreBike");
+    const purchaseCollection = database.collection("purchase");
     //code started
 
     //get bikes
@@ -35,6 +36,25 @@ async function run() {
       const cursor = moreBikeCollection.find({});
       const moreBikes = await cursor.toArray();
       res.send(moreBikes);
+    });
+    //get purchase data
+    app.get("/purchase", async (req, res) => {
+      //   const cursor = purchaseCollection.find({});
+      //   const purchase = await cursor.toArray();
+
+      // const date = new Date(req.query.date).toLocaleDateString();
+      const email = req.query.email;
+      const query = { email: email };
+      const cursor = purchaseCollection.find(query);
+      const purchase = await cursor.toArray();
+      res.json(purchase);
+    });
+
+    //post purchase data
+    app.post("/purchase", async (req, res) => {
+      const purchase = req.body;
+      const result = await purchaseCollection.insertOne(purchase);
+      res.json(result);
     });
 
     //code ended
