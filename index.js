@@ -24,6 +24,7 @@ async function run() {
     const moreBikeCollection = database.collection("moreBike");
     const purchaseCollection = database.collection("purchase");
     const usersCollection = database.collection("users");
+    const reviewCollection = database.collection("reviews");
     //code started
 
     //get bikes
@@ -38,6 +39,20 @@ async function run() {
       const cursor = moreBikeCollection.find({});
       const moreBikes = await cursor.toArray();
       res.send(moreBikes);
+    });
+    //get  Reviews
+
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
+
+    //POST API add review
+    app.post("/review", async (req, res) => {
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
+      res.json(result);
     });
 
     //POST API add more Bikes
