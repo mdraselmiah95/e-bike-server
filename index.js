@@ -1,8 +1,9 @@
 const express = require("express");
-const app = express();
-const cors = require("cors");
-require("dotenv").config();
 const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
+require("dotenv").config();
+const cors = require("cors");
+const app = express();
 
 const port = process.env.PORT || 5000;
 
@@ -37,6 +38,21 @@ async function run() {
       const cursor = moreBikeCollection.find({});
       const moreBikes = await cursor.toArray();
       res.send(moreBikes);
+    });
+
+    //POST API add more Bikes
+    app.post("/moreBike", async (req, res) => {
+      const bike = req.body;
+      const result = await moreBikeCollection.insertOne(bike);
+      res.json(result);
+    });
+
+    //Delete API moreBike
+    app.delete("/moreBike/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await moreBikeCollection.deleteOne(query);
+      res.json(result);
     });
 
     //get purchase data
