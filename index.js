@@ -125,6 +125,7 @@ async function run() {
       res.json(result);
     });
 
+    //user admin
     app.put("/users/admin", async (req, res) => {
       const user = req.body;
       console.log("put", user);
