@@ -100,7 +100,7 @@ async function run() {
       console.log(result);
       res.json(result);
     });
-    //find the email
+    //find the email & make admin
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
