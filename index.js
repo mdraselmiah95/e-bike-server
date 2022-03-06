@@ -100,7 +100,7 @@ async function run() {
       console.log(result);
       res.json(result);
     });
-
+    //find the email
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
